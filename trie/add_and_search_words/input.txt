@@ -1,0 +1,9 @@
+addWord bad
+addWord dad
+addWord mad
+search pad False
+search bad True
+search .ad True
+search b..  True
+search b.x  False
+search ...z  False
