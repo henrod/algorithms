@@ -1,5 +1,0 @@
-insert sp sao_paulo paulista 101
-search sp # paulista 101 True
-search sp # paulista # True
-search # ubatuba paulista # False
-search # # # # False
