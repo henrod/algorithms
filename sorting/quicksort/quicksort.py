@@ -1,29 +1,38 @@
+'''
+Idea: always keep the following invariant:
+[    <= pivot    ][    > pivot    ][ ]
+                i                j  p
+- pivot is at the last index
+- everything before i (inclusive) is less or equal than pivot
+    - that's why i starts at `start - 1`
+- everything before j (inclusive) and after i, is greater than pivot
+'''
+
+
+def _pivot(nums: list[int], start: int, end: int) -> int:
+    def swap(i: int, j: int) -> None:
+        nums[i], nums[j] = nums[j], nums[i]
+
+    pivot = nums[end]
+
+    i = start - 1
+    for j in range(start, end):
+        if nums[j] <= pivot:
+            i += 1
+            swap(i, j)
+
+    swap(i + 1, end)
+
+    return i + 1
+
+
 def _quicksort(nums: list[int], start: int, end: int) -> None:
     if start >= end:
         return
 
-    pivot = nums[start]
-    left = start + 1
-    right = end
-
-    def swap(i: int, j: int):
-        nums[i], nums[j] = nums[j], nums[i]
-
-    while left < right:
-        while left < right and nums[left] <= pivot:
-            left += 1
-
-        while right > left and nums[right] > pivot:
-            right -= 1
-
-        swap(left, right)
-
-    if nums[left] > pivot:
-        left -= 1
-
-    swap(left, start)
-    _quicksort(nums, start, left - 1)
-    _quicksort(nums, left + 1, end)
+    pivot = _pivot(nums, start, end)
+    _quicksort(nums, start, pivot - 1)
+    _quicksort(nums, pivot + 1, end)
 
 
 def quicksort(nums: list[int]) -> None:
