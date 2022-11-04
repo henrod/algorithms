@@ -30,17 +30,22 @@ def build_list(head: Node | None) -> list[int]:
     return r
 
 
+def _reverse(node: Node | None) -> tuple[Node | None, Node | None]:
+    if not node or not node.next:
+        return node, node
+
+    tail, head = _reverse(node.next)
+    tail.next = node
+
+    return node, head
+
+
 def reverse(head: Node | None) -> Node | None:
-    node = head
-    prev = None
-
-    while node:
-        node_next = node.next
-        node.next = prev
-        prev = node
-        node = node_next
-
-    return prev
+    if not head:
+        return None
+    tail, head = _reverse(head)
+    tail.next = None
+    return head
 
 
 def run_tests():
