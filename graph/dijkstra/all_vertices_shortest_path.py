@@ -1,3 +1,8 @@
+'''
+Implement Dijkstra with a class.
+Because of that, it's possible to reference the node, update its distance and heapify.
+'''
+
 from __future__ import annotations
 import sys
 from heapq import heappop, heapify
