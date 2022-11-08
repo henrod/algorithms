@@ -22,6 +22,7 @@ def prim(n: int, edges: list[tuple[int, int, int]]) -> list[tuple[int, int]]:
     graph: dict[int, list[tuple[int, int]]] = {v: [] for v in range(n)}
     for u, v, w in edges:
         graph[u].append((v, w))
+        graph[v].append((u, w))
 
     nodes: list[_Node] = [_Node(v, inf) for v in range(n)]
     min_heap = [node for node in nodes]
@@ -34,8 +35,8 @@ def prim(n: int, edges: list[tuple[int, int, int]]) -> list[tuple[int, int]]:
 
         for adj_vertex, w in graph[node.vertex]:
             adj = nodes[adj_vertex]
-            if adj.key > node.key + w and adj.vertex in heap_cache:
-                adj.key = node.key + w
+            if adj.key > w and adj.vertex in heap_cache:
+                adj.key = w
                 adj.parent = node.vertex
 
         heapq.heapify(min_heap)
@@ -59,8 +60,13 @@ def run_tests() -> None:
         (
             4,
             [(0, 1, 1), (1, 2, 1), (2, 3, 1), (0, 3, -10)],
-            [(0, 1), (1, 2), (0, 3)],
+            [(0, 1), (3, 2), (0, 3)],
         ),
+        (
+            4,
+            [(0, 2, -30), (0, 3, -10), (1, 2, -5), (1, 3, -10), (2, 3, 10)],
+            [(3, 1), (0, 2), (0, 3)],
+        )
     ]
 
     for n_test, (n, edges, expected) in enumerate(tests):
