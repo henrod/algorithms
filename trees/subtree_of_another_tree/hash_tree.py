@@ -1,7 +1,7 @@
 '''
 https://leetcode.com/problems/subtree-of-another-tree/
 
-Idea: preorder but putting '#' when node is null.
+Idea: each node is the hash of its value and the hash of its subtrees.
 '''
 
 
@@ -27,27 +27,29 @@ def to_tree(values: list[str | None], i: int) -> Node | None:
     return node
 
 
-def _serialize(root: Node | None) -> str:
-    arr = []
-
-    def dfs(node: Node | None):
-        if not node:
-            arr.append(' #')
-            return
-
-        arr.append(f' {node.val}')
-        dfs(node.left)
-        dfs(node.right)
-
-    dfs(root)
-
-    return ''.join(arr)
-
-
 def is_subtree(root: Node | None, subroot: Node | None) -> bool:
-    root_s = _serialize(root)
-    subroot_s = _serialize(subroot)
-    return subroot_s in root_s
+    hashes = set()
+
+    def to_hash(node: Node | None, add: bool) -> str:
+        if not node:
+            return ' #'
+
+        h = str(hash(
+            ' ' +
+            node.val +
+            to_hash(node.left, add) +
+            to_hash(node.right, add)
+        ))
+
+        if add:
+            hashes.add(h)
+
+        return h
+
+    to_hash(root, True)
+    h = to_hash(subroot, False)
+
+    return h in hashes
 
 
 def run_tests() -> None:
