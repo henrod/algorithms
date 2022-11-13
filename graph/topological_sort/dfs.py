@@ -14,7 +14,7 @@ def _dfs(graph: dict[int, list[int]], r: list[int], visited: set[int], vertex: i
     r.append(vertex)
 
 
-def dfs(n: int, edges: list[tuple[int, int]]) -> list[int]:
+def topological_sort(n: int, edges: list[tuple[int, int]]) -> list[int]:
     graph = build_graph(n, edges)
     visited: set[int] = set()
     r: list[int] = []
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     ]
 
     for n_test, (n, edges, expected) in enumerate(tests):
-        result = dfs(n, edges)
+        result = topological_sort(n, edges)
         if result != expected:
             raise Exception(f'Test {n_test} failed:'
                             f'result={result}, expected={expected}')
