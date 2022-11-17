@@ -18,6 +18,9 @@ class ValuesHolder:
         self._mapping[value].append(len(self._arr) - 1)
 
     def delete(self, value: int) -> None:
+        if value not in self._mapping:
+            raise ValueError(f'value {value} not found')
+
         i = self._mapping[value][-1]
         j = len(self._arr) - 1
 
@@ -30,6 +33,9 @@ class ValuesHolder:
             self._mapping[self._arr[i]].append(i)
 
     def get_random(self) -> int:
+        if not self._arr:
+            raise RuntimeError('empty array')
+
         i = random.randint(0, len(self._arr) - 1)
         return self._arr[i]
 
