@@ -57,6 +57,9 @@ def run_tests() -> None:
         ('query', 13, True),
         ('add', 13, 16),
         ('query', 13, True),
+        ('add', -10, -8),
+        ('query', -2, False),
+        ('query', -8, True),
     ]
 
     ranges_module = RangesModule()
