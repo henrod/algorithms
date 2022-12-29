@@ -53,6 +53,11 @@ if __name__ == '__main__':
             [(0, 1, 1), (0, 2, 5), (1, 3, 10), (2, 3, 2)],
             8
         ),
+        (
+            5, 1, 4,
+            [(0, 1, 1), (0, 2, 5), (1, 3, 10), (2, 3, 2)],
+            -1
+        ),
     ]
 
     for n_test, (n, start, end, edges, expected) in enumerate(tests):
