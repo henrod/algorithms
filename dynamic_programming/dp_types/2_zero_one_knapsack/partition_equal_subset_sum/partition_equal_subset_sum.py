@@ -9,7 +9,7 @@ https://leetcode.com/problems/partition-equal-subset-sum/
 
 def can_partition(nums: list[int]) -> bool:
     total_sum = sum(nums)
-    if total_sum % 1 == 1:
+    if total_sum % 2 == 1:
         return False
 
     target_sum = total_sum // 2
@@ -30,7 +30,7 @@ def can_partition(nums: list[int]) -> bool:
 if __name__ == '__main__':
     tests = [
         ([1, 5, 11, 5], True),
-        ([1, 2, 3, 5], True),
+        ([1, 2, 3, 5], False),
         ([1, 1, 1, 1], True),
         ([2, 4, 10, 20], False),
     ]
