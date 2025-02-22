@@ -10,37 +10,29 @@ Examples:
 3. [2, 1, 2] -> 1
 """
 
+import sys
 
-def local_min(nums, l, r):
-    if not nums:
-        return None
 
-    if len(nums) == 1:
-        return nums[0]
-
-    if l > r:
-        return None
-
+def _local_min(nums, l, r):
     while l <= r:
         m = (l + r) // 2
+        ln = nums[m - 1] if m > 0 else sys.maxsize
+        rn = nums[m + 1] if m < len(nums) - 1 else sys.maxsize
 
-        if m == 0:
-            return nums[0] if nums[0] < nums[1] else None
-
-        if m == len(nums) - 1:
-            return nums[-1] if nums[-2] > nums[-1] else None
-
-        if nums[m - 1] > nums[m] < nums[m + 1]:
+        if ln > nums[m] < rn:
             return nums[m]
-
-        if nums[m - 1] < nums[m]:
-            r = m - 1
-        elif nums[m] > nums[m + 1]:
-            l = m + 1
-        else:
+        elif ln <= nums[m] >= rn:
             return local_min(nums, l, m - 1) or local_min(nums, m + 1, r)
+        elif ln <= nums[m]:
+            r = m - 1
+        elif nums[m] >= rn:
+            l = m + 1
 
     return None
+
+
+def local_min(nums):
+    return _local_min(nums, 0, len(nums) - 1)
 
 
 def run_tests() -> None:
@@ -54,7 +46,7 @@ def run_tests() -> None:
     ]
 
     for n_test, (nums, expected) in enumerate(tests):
-        result = local_min(nums, 0, len(nums) - 1)
+        result = local_min(nums)
         if result not in expected:
             raise Exception(
                 f"Test #{n_test} failed: result={result}, expected={expected}"
