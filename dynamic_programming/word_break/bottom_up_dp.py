@@ -7,17 +7,28 @@ a space-separated sequence of one or more dictionary words.
 Note that the same word in the dictionary may be reused multiple times in the segmentation.
 """
 
+"""
+Analysis.
 
-def word_break(text: str, words_dictionary: list[str]) -> bool:
-    dp = [False] * (len(text) + 1)
-    dp[len(text)] = True
+N: len(text)
+M: len(word_dictionary)
+K: avg(len(word) for word in word_dictionary)
 
-    words = set(words_dictionary)
+Time: O(N * M * K)
+Space: O(N + M * K)
+"""
 
-    for i in range(len(text) - 1, -1, -1):
-        for j in range(i + 1, len(text) + 1):
-            if text[i:j] in words and dp[j]:
-                dp[i] = True
+
+def word_break(text: str, word_dictionary: list[str]) -> bool:
+    dp = [False] * (len(text) + 1)  # sub problem: can word break starting from index i
+    dp[len(text)] = True  # base: index after end of text (empty text) can be word break
+
+    for i in range(len(text) - 1, -1, -1):  # bottom up, so move backwards
+        for word in word_dictionary:
+            if i + len(word) <= len(text) and text[i : i + len(word)] == word:
+                dp[i] = dp[i + len(word)]
+
+            if dp[i]:
                 break
 
     return dp[0]
